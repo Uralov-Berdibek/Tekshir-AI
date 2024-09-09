@@ -1,0 +1,114 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* For webkit browsers */
+.scrollbar-thin::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: #6b7280; /* Adjust to your preferred color */
+  border-radius: 3px;
+}
+
+/* For non-webkit browsers (e.g., Firefox) */
+.scrollbar-thin {
+  scrollbar-width: thin;
+  scrollbar-color: #6b7280 transparent; /* Adjust to your preferred color */
+}
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+@layer base {
+  :root {
+    --background: 240 100% 98%; /* Светло-серый фон */
+    --foreground: 240 10% 3.9%; /* Темно-серый текст */
+    --card: 240 100% 98%; /* Карточки с белым фоном */
+    --card-foreground: 240 10% 3.9%; /* Темно-серый текст на карточках */
+    --popover: 240 100% 98%; /* Попапы с белым фоном */
+    --popover-foreground: 240 10% 3.9%; /* Темно-серый текст в попапах */
+    --primary: 220 60% 50%; /* Синий основной цвет */
+    --primary-foreground: 0 0% 98%; /* Белый текст на синем фоне */
+    --secondary: 120 40% 85%; /* Светло-зеленый акцентный цвет */
+    --secondary-foreground: 240 5.9% 10%; /* Темный текст на светло-зеленом фоне */
+    --muted: 240 20% 90%; /* Светло-серый цвет для неактивных элементов */
+    --muted-foreground: 240 5% 46%; /* Средне-серый текст для неактивных элементов */
+    --accent: 120 40% 85%; /* Светло-зеленый акцент */
+    --accent-foreground: 240 5.9% 10%; /* Темный текст на акцентных элементах */
+    --destructive: 0 75% 55%; /* Красный цвет для опасных действий */
+    --destructive-foreground: 0 0% 98%; /* Белый текст на красном фоне */
+    --border: 240 10% 85%; /* Светло-серые границы */
+    --input: 240 10% 85%; /* Светло-серый фон для инпутов */
+    --ring: 220 60% 50%; /* Синее кольцо фокуса */
+    --chart-1: 220 70% 50%; /* Цвет 1 для графиков */
+    --chart-2: 160 60% 45%; /* Цвет 2 для графиков */
+    --chart-3: 30 80% 55%; /* Цвет 3 для графиков */
+    --chart-4: 280 65% 60%; /* Цвет 4 для графиков */
+    --chart-5: 340 75% 55%; /* Цвет 5 для графиков */
+    --radius: 0.5rem; /* Радиус закругления */
+  }
+  .dark {
+    --background: 240 10% 10%; /* Темно-серый фон */
+    --foreground: 0 0% 98%; /* Белый текст */
+    --card: 240 10% 10%; /* Темные карточки */
+    --card-foreground: 0 0% 98%; /* Белый текст на карточках */
+    --popover: 240 10% 10%; /* Темные попапы */
+    --popover-foreground: 0 0% 98%; /* Белый текст в попапах */
+    --primary: 220 60% 50%; /* Голубой основной цвет */
+    --primary-foreground: 0 0% 98%; /* Белый текст на голубом фоне */
+    --secondary: 120 40% 20%; /* Темно-зеленый акцентный цвет */
+    --secondary-foreground: 0 0% 98%; /* Белый текст на темно-зеленом фоне */
+    --muted: 240 10% 20%; /* Темно-серый цвет для неактивных элементов */
+    --muted-foreground: 240 5% 64%; /* Серый текст для неактивных элементов */
+    --accent: 120 40% 20%; /* Темно-зеленый акцент */
+    --accent-foreground: 0 0% 98%; /* Белый текст на акцентных элементах */
+    --destructive: 0 75% 40%; /* Темно-красный цвет для опасных действий */
+    --destructive-foreground: 0 0% 98%; /* Белый текст на темно-красном фоне */
+    --border: 240 10% 25%; /* Темные границы */
+    --input: 240 10% 25%; /* Темно-серый фон для инпутов */
+    --ring: 220 60% 50%; /* Голубое кольцо фокуса */
+    --chart-1: 220 70% 50%; /* Цвет 1 для графиков */
+    --chart-2: 160 60% 45%; /* Цвет 2 для графиков */
+    --chart-3: 30 80% 55%; /* Цвет 3 для графиков */
+    --chart-4: 280 65% 60%; /* Цвет 4 для графиков */
+    --chart-5: 340 75% 55%; /* Цвет 5 для графиков */
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
