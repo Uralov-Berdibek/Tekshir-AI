@@ -25,6 +25,8 @@ import {
 // Local Storage
 import { getInitialTheme, toggleTheme } from '../../utils/theme';
 import RenameModal from '../global/rename-modal';
+import { useRouter } from 'next/navigation';
+import { useConversationStore } from '../../lib/conversationStore';
 
 type Conversation = {
   id: number;
@@ -34,26 +36,37 @@ type Conversation = {
 type SidebarProps = {};
 
 const Sidebar = (props: SidebarProps) => {
-  const [theme, setTheme] = useState(getInitialTheme());
-  const [conversations, setConversations] = useState<Conversation[]>([]); // Store the conversations
+  const [theme, setTheme] = useState<string | null>(null); // Set theme initially to null
+  const { conversations, addConversation } = useConversationStore(); // Store the conversations
   const [open, setOpen] = useState(false); // Control modal visibility
   const [currentConversation, setCurrentConversation] = useState<Conversation | null>(null); // Store current conversation for renaming
   const [newName, setNewName] = useState(''); // Store the new name for the conversation
 
+  const router = useRouter();
+
   useEffect(() => {
-    toggleTheme(theme);
-  }, [theme]);
+    const initialTheme = getInitialTheme();
+    setTheme(initialTheme);
+
+    if (typeof window !== 'undefined') {
+      toggleTheme(initialTheme); // Ensure theme is toggled after hydration
+    }
+  }, []);
 
   const handleToggle = () => {
-    setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
+    if (theme) {
+      const newTheme = theme === 'light' ? 'dark' : 'light';
+      setTheme(newTheme);
+      toggleTheme(newTheme);
+    }
   };
 
   const newConversation = () => {
-    const newConv: Conversation = {
-      id: conversations.length + 1, // Generate a new ID
-      name: 'New Conversation',
-    };
-    setConversations([...conversations, newConv]); // Add the new conversation to the list
+    const name = `Conversation ${conversations.length + 1}`;
+    addConversation(name);
+
+    const newId = conversations.length + 1;
+    router.push(`/conversation/${newId}`); // Переход на страницу нового разговора
   };
 
   const handleRename = (conversation: Conversation) => {
@@ -64,18 +77,19 @@ const Sidebar = (props: SidebarProps) => {
 
   const onRename = () => {
     if (currentConversation) {
-      setConversations((prevConversations) =>
-        prevConversations.map((conv) =>
-          conv.id === currentConversation.id ? { ...conv, name: newName } : conv,
-        ),
-      );
+      useConversationStore.getState().renameConversation(currentConversation.id, newName);
       setOpen(false); // Close the modal after renaming
     }
   };
 
   const handleDelete = (id: number) => {
-    setConversations((prevConversations) => prevConversations.filter((conv) => conv.id !== id));
+    useConversationStore.getState().deleteConversation(id);
   };
+
+  if (theme === null) {
+    // Render nothing until the theme is set
+    return null;
+  }
 
   return (
     <div className='h-[calc(100vh-80px)] w-3/4 sm:w-1/4 flex flex-col border-r bg-gray-100 dark:bg-gray-900'>
@@ -91,11 +105,14 @@ const Sidebar = (props: SidebarProps) => {
           </Button>
         </div>
 
-        <div className='px-4 py-3'>
+        <div className='px-4 py-1'>
           {/* Display the conversations */}
           {conversations.map((conversation) => (
             <ContextMenu key={conversation.id}>
-              <ContextMenuTrigger className='flex items-center text-xl text-black dark:text-white mt-2 py-2'>
+              <ContextMenuTrigger
+                className='flex items-center text-xl text-black dark:text-white mt-2 py-2 cursor-pointer'
+                onClick={() => router.push(`/conversation/${conversation.id}`)}
+              >
                 <MessageSquare className='mr-2' />
                 {conversation.name}
               </ContextMenuTrigger>
@@ -108,7 +125,10 @@ const Sidebar = (props: SidebarProps) => {
                   <SquarePen className='mr-2' />
                   Rename
                 </ContextMenuItem>
-                <ContextMenuItem onClick={() => handleDelete(conversation.id)}>
+                <ContextMenuItem
+                  onClick={() => handleDelete(conversation.id)}
+                  className='text-red-700'
+                >
                   <Trash2 className='mr-2' /> Delete
                 </ContextMenuItem>
               </ContextMenuContent>

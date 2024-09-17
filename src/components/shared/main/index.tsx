@@ -77,7 +77,7 @@ const Main = (props: Props) => {
             placeholder='Enter your message'
             value={userInput}
             onChange={(e) => setUserInput(e.target.value)}
-            className='w-full p-2 border border-gray-300 rounded-lg dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 pr-10'
+            className='w-full p-2 border border-gray-300 rounded-lg bg-transparent dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 pr-10'
           />
           {/* Action Button */}
           <button
