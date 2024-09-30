@@ -66,7 +66,7 @@ const Sidebar = (props: SidebarProps) => {
     addConversation(name);
 
     const newId = conversations.length + 1;
-    router.push(`/conversation/${newId}`); // Переход на страницу нового разговора
+    router.push(`/${newId}`); // Переход на страницу нового разговора
   };
 
   const handleRename = (conversation: Conversation) => {

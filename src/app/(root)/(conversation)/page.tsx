@@ -1,10 +1,14 @@
+'use client';
+
 import React from 'react';
 import Header from '../../../components/shared/header';
 import Sidebar from '../../../components/shared/sidebar';
+import useAuth from '../../../hooks/useAuth';
 
 type HomeProps = {};
 
 const Home = (props: HomeProps) => {
+  // useAuth();
   return (
     <div>
       <Header />
